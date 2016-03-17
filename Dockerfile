@@ -8,19 +8,16 @@ RUN     apt-get update && \
         apt-get install -y git-core wget build-essential libxml2-dev liblua5.1-0-dev liblog4cpp5-dev libesmtp-dev debhelper cdbs pkg-config libssl-dev
 
 
-# build pthsem
+# build and install pthsem
 RUN	wget --no-check-certificate https://www.auto.tuwien.ac.at/~mkoegler/pth/pthsem_2.0.8.tar.gz && \
-	tar xzf pthsem_2.0.8.tar.gz
-
-# install pthsem
-WORKDIR	pthsem-2.0.8
-RUN	dpkg-buildpackage -b -uc
-RUN	dpkg -i ../libpthsem*.deb
+	tar xzf pthsem_2.0.8.tar.gz && \
+	cd pthsem-2.0.8 && \
+	dpkg-buildpackage -b -uc && \
+	dpkg -i ../libpthsem*.deb
 
 
 
 # build linknx
-WORKDIR	/
 ARG     VERSION
 
 RUN     wget http://downloads.sourceforge.net/project/linknx/linknx/linknx-$VERSION/linknx-$VERSION.tar.gz && \
@@ -28,14 +25,12 @@ RUN     wget http://downloads.sourceforge.net/project/linknx/linknx/linknx-$VERS
 
 WORKDIR linknx-$VERSION
 
-RUN     ./configure --enable-smtp --with-lua --with-log4cpp --with-pth-test 2>&1 >/linknx_configure.log
-
-RUN     make 2>&1 >/linknx_make.log
-
-RUN 	make install
+RUN     ./configure --enable-smtp --with-lua --with-log4cpp --with-pth-test && \
+	make && \
+	make install
 
 
+# copy results out of the container
 VOLUME  /dist
-CMD     if [ -d /dist ]; then cp /libpthsem*.deb /dist; cp /usr/local/bin/linknx /dist; cp /*.log /dist; fi
-
+CMD     if [ -d /dist ]; then cp /libpthsem*.deb /dist; cp /usr/local/bin/linknx /dist; fi
 
