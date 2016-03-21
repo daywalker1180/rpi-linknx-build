@@ -1,4 +1,4 @@
-#Installation\n
+#Installation
 to run this linknx binary some shared libs have to be installed:
 ```bash
 apt-get update

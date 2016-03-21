@@ -21,7 +21,7 @@ sudo docker run --rm=true -v $(pwd)/$DIST_DIR:/dist $IMAGE_NAME
 
 # create README.MD in dist
 cat > $DIST_DIR/README.MD << EOF
-#Installation\n
+#Installation
 to run this linknx binary some shared libs have to be installed:
 \`\`\`bash
 apt-get update
