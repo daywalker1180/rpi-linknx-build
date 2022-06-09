@@ -2,11 +2,11 @@
 set -e
 
 # version to build (version <=0.0.1.32 are fetched from SourceForge, versions >0.0.1.32 from GitHub)
-VERSION=0.0.1.32
+VERSION=0.0.1.38
 
 # host dir to copy result to
 DIST_DIR=dist-$VERSION
-IMAGE_NAME=heziegl/rpi-linknx-build:$VERSION
+IMAGE_NAME=daywalker1180/rpi-linknx-build:$VERSION
 
 
 # build linknx
